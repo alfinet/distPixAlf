@@ -60,7 +60,7 @@ function invertColor(hex, bw) {
   return "#" + padZero(r) + padZero(g) + padZero(b);
 }
 
-var data = [].slice.call(document.getElementsByTagName('script')).find(i => i.src.indexOf('distWithDiscount') != -1).src.split("&").splice(1).map(i => {
+var data = [].slice.call(document.getElementsByTagName('script')).find(i => i.src.indexOf('distWithoutDiscount.js') != -1).src.split("&").splice(1).map(i => {
   const [key, value] = i.split('=');
   if(key === 'appdata') {
     return {[key]: JSON.parse(decodeURIComponent(escape(window.atob(value))))}
