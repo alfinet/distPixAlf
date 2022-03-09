@@ -82,9 +82,12 @@ let pixKey = dados.pixKey,
     discount = dados.discount/100;
 
 /*Define variaveis*/
-var price = Shopify.checkout.subtotal_price;
-    pixValue = (price-(price*discount)),
-    pixReference = "PEDIDO" + Shopify.checkout.order_id,
+var price = $(".payment-due__price").data("checkout-payment-due-target").toString(),
+    dotPosition = price.length - 2,
+    priceString = (price-(price*discount)).toString().replace('.', ""),
+    pixValue = parseFloat(priceString.slice(0, dotPosition) + "." + priceString.slice(dotPosition)).toFixed(2),
+    orderNumber = $(".os-order-number").text().replace(/\D/g, ""),
+    pixReference = "PEDIDO" + orderNumber,
     shortName = fullName.substr(0, 25),
     GUI = "0014BR.GOV.BCB.PIX01",
     info = message;
@@ -179,15 +182,9 @@ $(document).on("click", "#copy-alias", function () {
   $temp.remove();
 });
 
-var totalCompra = Shopify.checkout.total_price,
+var totalCompra = $(".payment-due__price").text(),
   metodoPagamento = $("span.payment-method-list__item__info").text(),
   valorComDesconto = Shopify.formatMoney(pixValue, "R$ {{amount_with_comma_separator}}");
-
-  if (price>pixValue){
-    var linhaValor = `<oldPrice>${totalCompra}</oldPrice> <strong>${valorComDesconto}</strong>`;
-  }else{
-    var linhaValor = `<strong>${valorComDesconto}</strong>`;
-  }
 
 if (metodoPagamento.indexOf("PIX") != -1) {
   Shopify.Checkout.OrderStatus.addContentBox(
@@ -197,7 +194,7 @@ if (metodoPagamento.indexOf("PIX") != -1) {
           <p class="mb4 ph5-ns informacoesPix">Abra o app em que vai fazer a transferência, escaneie a imagem ou cole o código do QR Code. ${info}</p>
           <div class="appendQR"></div>
               <p class="f3">
-                  ${linhaValor}
+                  <oldPrice>${totalCompra}</oldPrice> <strong>${valorComDesconto}</strong>
               </p>
               <a id="copy-code" class="copy-button copy-icon db tc no-underline br3 fw6 ttu ttn-ns" data-clipboard-text="${pixCopiaCola}">Copiar código do QR Code</a>
           </div>
