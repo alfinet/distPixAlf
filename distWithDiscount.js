@@ -89,12 +89,6 @@ var price = Shopify.checkout.subtotal_price;
     GUI = "0014BR.GOV.BCB.PIX01",
     info = message;
 
-    if (price>pixValue){
-      var linhaValor = `<oldPrice>${totalCompra}</oldPrice> <strong>${valorComDesconto}</strong>`;
-    }else{
-      var linhaValor = `<strong>${valorComDesconto}</strong>`;
-    }
-
 /*Define tamanhos*/
 var shortNameLength = ("0" + shortName.length).slice(-2),
     cityLength = ("0" + city.length).slice(-2),
@@ -185,9 +179,15 @@ $(document).on("click", "#copy-alias", function () {
   $temp.remove();
 });
 
-var totalCompra = $(".payment-due__price").text(),
+var totalCompra = Shopify.checkout.total_price,
   metodoPagamento = $("span.payment-method-list__item__info").text(),
   valorComDesconto = Shopify.formatMoney(pixValue, "R$ {{amount_with_comma_separator}}");
+
+  if (price>pixValue){
+    var linhaValor = `<oldPrice>${totalCompra}</oldPrice> <strong>${valorComDesconto}</strong>`;
+  }else{
+    var linhaValor = `<strong>${valorComDesconto}</strong>`;
+  }
 
 if (metodoPagamento.indexOf("PIX") != -1) {
   Shopify.Checkout.OrderStatus.addContentBox(
