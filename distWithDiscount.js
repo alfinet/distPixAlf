@@ -82,15 +82,18 @@ let pixKey = dados.pixKey,
     discount = dados.discount/100;
 
 /*Define variaveis*/
-var price = $(".payment-due__price").data("checkout-payment-due-target").toString(),
-    dotPosition = price.length - 2,
-    priceString = (price-(price*discount)).toString().replace('.', ""),
-    pixValue = parseFloat(priceString.slice(0, dotPosition) + "." + priceString.slice(dotPosition)).toFixed(2),
-    orderNumber = $(".os-order-number").text().replace(/\D/g, ""),
-    pixReference = "PEDIDO" + orderNumber,
+var price = Shopify.checkout.subtotal_price;
+    pixValue = (price-(price*discount)),
+    pixReference = "PEDIDO" + Shopify.checkout.order_id,
     shortName = fullName.substr(0, 25),
     GUI = "0014BR.GOV.BCB.PIX01",
     info = message;
+
+    if (price>pixValue){
+      var linhaValor = `<oldPrice>${totalCompra}</oldPrice> <strong>${valorComDesconto}</strong>`;
+    }else{
+      var linhaValor = `<strong>${valorComDesconto}</strong>`;
+    }
 
 /*Define tamanhos*/
 var shortNameLength = ("0" + shortName.length).slice(-2),
@@ -194,7 +197,7 @@ if (metodoPagamento.indexOf("PIX") != -1) {
           <p class="mb4 ph5-ns informacoesPix">Abra o app em que vai fazer a transferência, escaneie a imagem ou cole o código do QR Code. ${info}</p>
           <div class="appendQR"></div>
               <p class="f3">
-                  <oldPrice>${totalCompra}</oldPrice> <strong>${valorComDesconto}</strong>
+                  ${linhaValor}
               </p>
               <a id="copy-code" class="copy-button copy-icon db tc no-underline br3 fw6 ttu ttn-ns" data-clipboard-text="${pixCopiaCola}">Copiar código do QR Code</a>
           </div>
