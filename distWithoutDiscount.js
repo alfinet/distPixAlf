@@ -60,7 +60,7 @@ function invertColor(hex, bw) {
   return "#" + padZero(r) + padZero(g) + padZero(b);
 }
 
-var data = [].slice.call(document.getElementsByTagName('script')).find(i => i.src.indexOf('distWithoutDiscount.js') != -1).src.split("&").splice(1).map(i => {
+var data = [].slice.call(document.getElementsByTagName('script')).find(i => i.src.indexOf('distWithDiscount') != -1).src.split("&").splice(1).map(i => {
   const [key, value] = i.split('=');
   if(key === 'appdata') {
     return {[key]: JSON.parse(decodeURIComponent(escape(window.atob(value))))}
@@ -84,7 +84,7 @@ let pixKey = dados.pixKey,
 /*Define variaveis*/
 var price = $(".payment-due__price").data("checkout-payment-due-target").toString(),
     dotPosition = price.length - 2,
-    priceString = (price-(price*discount)).toString().replace('.', ""),
+    priceString = (price-(price*discount)).toFixed().toString().replace('.', ""),
     pixValue = parseFloat(priceString.slice(0, dotPosition) + "." + priceString.slice(dotPosition)).toFixed(2),
     orderNumber = $(".os-order-number").text().replace(/\D/g, ""),
     pixReference = "PEDIDO" + orderNumber,
@@ -194,7 +194,7 @@ if (metodoPagamento.indexOf("PIX") != -1) {
           <p class="mb4 ph5-ns informacoesPix">Abra o app em que vai fazer a transferência, escaneie a imagem ou cole o código do QR Code. ${info}</p>
           <div class="appendQR"></div>
               <p class="f3">
-                  <strong>${valorComDesconto}</strong>
+                  <oldPrice>${totalCompra}</oldPrice> <strong>${valorComDesconto}</strong>
               </p>
               <a id="copy-code" class="copy-button copy-icon db tc no-underline br3 fw6 ttu ttn-ns" data-clipboard-text="${pixCopiaCola}">Copiar código do QR Code</a>
           </div>
