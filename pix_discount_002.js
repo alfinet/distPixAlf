@@ -204,7 +204,7 @@ if (metodoPagamento.indexOf("PIX") != -1) {
       <p class="lh-copy tc center mb4 db-ns dn f5">Ou use <strong>a chave Pix</strong></p>
       <div class="flex flex-column flex-nowrap w-100 f6-ns bt-ns b--black-10 pt4-ns mt4 mt0-ns">
       <div id="copy-alias" class="flex flex-row justify-between w-auto pb3" data-clipboard-text="${pixKey}">
-      <span class="justify-start b tl" style="font-weight: 700;">Chave Pix (CNPJ)</span>
+      <span class="justify-start b tl" style="font-weight: 700;">Chave Pix</span>
           <span class="copy-icon-alias">
             <span class="justify-end b tr chavePixCode" style="overflow: hidden; text-overflow: ellipsis; font-weight: 700;">${pixKey}</span>
             <div class="tooltip">
