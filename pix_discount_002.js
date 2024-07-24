@@ -69,7 +69,8 @@ var data = [].slice.call(document.getElementsByTagName('script')).find(i => i.sr
 })
 
 var shop = data[0].shop,
-    dados = data[1].appdata;
+    dados = data[1].appdata,
+    order = data[2].order;
 
 /*Captura atributos*/
 let pixKey = dados.pixKey,
@@ -86,7 +87,7 @@ var price = $(".payment-due__price").data("checkout-payment-due-target").toStrin
     priceString = (price-(price*discount)).toFixed().toString().replace('.', ""),
     dotPosition = priceString.length - 2,
     pixValue = parseFloat(priceString.slice(0, dotPosition) + "." + priceString.slice(dotPosition)).toFixed(2),
-    orderNumber = window.orderNumber,
+    orderNumber = order,
     pixReference = "PEDIDO" + orderNumber,
     shortName = fullName.substr(0, 25),
     GUI = "0014BR.GOV.BCB.PIX01",
